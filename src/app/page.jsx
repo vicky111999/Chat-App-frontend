@@ -11,6 +11,8 @@ const Page = () => {
   const [userdata, setUserdata] = useState({});
   const [user, setUser] = useState({});
   const [messages, setMessages] = useState([]);
+  const [istying,setIstyping] = useState('')
+  const [typing,setTyping] = useState('')
   const bottomRef = useRef(null)
   useEffect(() => {
     socket.connect();
@@ -23,6 +25,21 @@ const Page = () => {
       socket.off("newmsg",handlemsg)
     })
   }, []);
+  useEffect(()=>{
+    socket.on('usertyping',()=>{
+      setIstyping(`Typing...`)
+    })
+    socket.on('userstoptyping',()=>{
+      setIstyping('')
+    })
+    return(()=>{
+      socket.off('usertyping')
+      socket.off('userstoptyping')
+    })
+  },[])
+  // useEffect(()=>{
+  //   socket.emit('typing', {receiverid:userdata.id,})
+  // },[user.id])
   useEffect(()=>{
     bottomRef.current?.scrollIntoView()
   },[messages,msgs])
