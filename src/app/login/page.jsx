@@ -46,7 +46,6 @@ const Page = () => {
       const user = await api.post("/auth/login", formData);
       localStorage.setItem("token",user.data.message.token);
       localStorage.setItem("user",JSON.stringify({id:user.data.message.id}));
-      console.log("nhefuihniojrv")
       router.push("/");
     } catch (err) {
       console.log(err.message);
